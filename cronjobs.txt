@@ -1,0 +1,14 @@
+# Test cronfile
+
+# Crontask 1
+* *  * * * Crontask 1
+
+# Crontask 2
+*		*	*   *	* Crontask 2     # ist zum Test
+
+ 
+* * * * *
+* * * *
+* * *
+* *
+*

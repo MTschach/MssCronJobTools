@@ -1,0 +1,6 @@
+version = 0.1.0
+groupId = Mss
+artifactId = MssCronJobTools
+licenses = ['Apache 2'] // or something else 
+id = MssGronJobTools
+gitUrl = https://github.com/mtschach/MssCronJobTools
