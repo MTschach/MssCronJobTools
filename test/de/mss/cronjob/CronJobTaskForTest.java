@@ -16,18 +16,18 @@ public class CronJobTaskForTest extends CronJobTask {
 
 
    @Override
-   public void runTask(String loggingId, ConfigFile cfg) throws MssException {
+   public void execTask(String loggingId, ConfigFile cfg) throws MssException {
       this.logId = loggingId;
       this.cfgFile = cfg;
    }
 
 
-   public String getLogId() {
-      return this.logId;
+   public ConfigFile getCfgFile() {
+      return this.cfgFile;
    }
 
 
-   public ConfigFile getCfgFile() {
-      return this.cfgFile;
+   public String getLogId() {
+      return this.logId;
    }
 }
