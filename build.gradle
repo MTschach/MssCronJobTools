@@ -47,15 +47,15 @@ sourceSets {
 
 
 dependencies {
-   compile        group: 'Mss'                           , name: 'MssUtils'               , version: 'latest.release'
-   compile        group: 'Mss'                           , name: 'MssConfigTools'         , version: 'latest.release'
-   compile        group: 'org.apache.logging.log4j'      , name: 'log4j-core'             , version: 'latest.release'
-   compile        group: 'org.apache.logging.log4j'      , name: 'log4j-api'              , version: 'latest.release'
+   implementation        group: 'Mss'                           , name: 'MssUtils'               , version: 'latest.release'
+   implementation        group: 'Mss'                           , name: 'MssConfigTools'         , version: 'latest.release'
+   implementation        group: 'org.apache.logging.log4j'      , name: 'log4j-core'             , version: 'latest.release'
+   implementation        group: 'org.apache.logging.log4j'      , name: 'log4j-api'              , version: 'latest.release'
 
 
-   testCompile 'junit:junit:4.12'
-   testCompile       group: 'org.powermock'                 , name: 'powermock-module-junit4', version: 'latest.release'
-   testCompile       group: 'org.powermock'                 , name: 'powermock-api-easymock' , version: 'latest.release'
-   testCompile       group: 'mysql'                         , name: 'mysql-connector-java'   , version: '8.0.11'
-   testCompile       group: 'org.xerial'                    , name: 'sqlite-jdbc'            , version: '3.7.2'
+   testImplementation 'junit:junit:4.12'
+   testImplementation       group: 'org.powermock'                 , name: 'powermock-module-junit4', version: 'latest.release'
+   testImplementation       group: 'org.powermock'                 , name: 'powermock-api-easymock' , version: 'latest.release'
+   testImplementation       group: 'mysql'                         , name: 'mysql-connector-java'   , version: '8.0.11'
+   testImplementation       group: 'org.xerial'                    , name: 'sqlite-jdbc'            , version: '3.7.2'
 }
