@@ -18,6 +18,10 @@ defaultTasks 'build'
 
 buildscript {
     repositories {
+        mavenLocal()
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
         jcenter()
         google()
     }
@@ -25,12 +29,33 @@ buildscript {
       classpath 'com.android.tools.build:gradle:3.2.1'
       classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
       classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:latest.release'
+      classpath 'de.jjohannes.gradle:extra-java-module-info:0.10'
     }
 }
+
+apply plugin: 'de.jjohannes.extra-java-module-info'
 
 apply from: 'https://raw.githubusercontent.com/MTschach/MssUtils/master/deploy.gradle'
 
 apply from: 'https://raw.githubusercontent.com/MTschach/MssUtils/master/artifactory.gradle'
+
+extraJavaModuleInfo {
+   automaticModule('junit-4.12.jar','')
+   automaticModule('powermock-module-junit4-2.0.9.jar', '')
+   automaticModule('powermock-module-junit4-common-2.0.9.jar', '')
+   automaticModule('powermock-api-easymock-2.0.9.jar', '')
+   automaticModule('powermock-api-support-2.0.9.jar', '')
+   automaticModule('powermock-core-2.0.9.jar', '')
+   automaticModule('powermock-reflect-2.0.9.jar', '')
+   automaticModule('javassist-3.27.0-GA.jar', '')
+   automaticModule('protobuf-java-2.6.0.jar', '')
+   automaticModule('mysql-connector-java-8.0.11.jar', '')
+   automaticModule('sqlite-jdbc-3.7.2.jar', '')
+   automaticModule('cglib-nodep-3.2.9.jar', '')
+   automaticModule('hamcrest-core-1.3.jar', '')
+   automaticModule('log4j-core-2.17.1.jar', '')
+   automaticModule('log4j-api-2.17.1.jar', '')
+}
 
 sourceSets {
    main {
