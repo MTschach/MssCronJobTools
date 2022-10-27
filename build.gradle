@@ -8,6 +8,13 @@
 
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java-library'
+apply plugin: 'jacoco'
+
+apply from: 'https://raw.githubusercontent.com/MTschach/MssUtils/master/deploy.gradle'
+
+apply from: 'https://raw.githubusercontent.com/MTschach/MssUtils/master/artifactory.gradle'
+
+apply from: 'https://raw.githubusercontent.com/MTschach/MssUtils/master/eclipse.gradle'
 
 def artifact = new Properties()
 artifact.load(new FileInputStream("${project.projectDir}${File.separator}deploy.settings"))
@@ -17,45 +24,10 @@ version = artifact.version
 defaultTasks 'build'
 
 buildscript {
-    repositories {
-        mavenLocal()
-        maven {
-            url 'https://plugins.gradle.org/m2/'
-        }
-        jcenter()
-        google()
-    }
-   dependencies {
-      classpath 'com.android.tools.build:gradle:3.2.1'
-      classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
-      classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:latest.release'
-      classpath 'de.jjohannes.gradle:extra-java-module-info:0.10'
-    }
+   apply from: 'https://raw.githubusercontent.com/MTschach/MssUtils/master/buildscript.gradle'
 }
 
-apply plugin: 'de.jjohannes.extra-java-module-info'
-
-apply from: 'https://raw.githubusercontent.com/MTschach/MssUtils/master/deploy.gradle'
-
-apply from: 'https://raw.githubusercontent.com/MTschach/MssUtils/master/artifactory.gradle'
-
-extraJavaModuleInfo {
-   automaticModule('junit-4.12.jar','')
-   automaticModule('powermock-module-junit4-2.0.9.jar', '')
-   automaticModule('powermock-module-junit4-common-2.0.9.jar', '')
-   automaticModule('powermock-api-easymock-2.0.9.jar', '')
-   automaticModule('powermock-api-support-2.0.9.jar', '')
-   automaticModule('powermock-core-2.0.9.jar', '')
-   automaticModule('powermock-reflect-2.0.9.jar', '')
-   automaticModule('javassist-3.27.0-GA.jar', '')
-   automaticModule('protobuf-java-2.6.0.jar', '')
-   automaticModule('mysql-connector-java-8.0.11.jar', '')
-   automaticModule('sqlite-jdbc-3.7.2.jar', '')
-   automaticModule('cglib-nodep-3.2.9.jar', '')
-   automaticModule('hamcrest-core-1.3.jar', '')
-   automaticModule('log4j-core-2.17.1.jar', '')
-   automaticModule('log4j-api-2.17.1.jar', '')
-}
+apply plugin: "name.remal.module-info-generator"
 
 sourceSets {
    main {
@@ -72,15 +44,38 @@ sourceSets {
 
 
 dependencies {
-   implementation        group: 'Mss'                           , name: 'MssUtils'               , version: 'latest.release'
-   implementation        group: 'Mss'                           , name: 'MssConfigTools'         , version: 'latest.release'
-   implementation        group: 'org.apache.logging.log4j'      , name: 'log4j-core'             , version: 'latest.release'
-   implementation        group: 'org.apache.logging.log4j'      , name: 'log4j-api'              , version: 'latest.release'
+   implementation       group: 'Mss'                                          , name: 'MssUtils'                        , version: 'latest.release'
+   implementation       group: 'Mss'                                          , name: 'MssConfigTools'                  , version: 'latest.release'
+   implementation       group: 'org.apache.logging.log4j'                     , name: 'log4j-core'                      , version: "${loggingVersion}"
+   implementation       group: 'org.apache.logging.log4j'                     , name: 'log4j-api'                       , version: "${loggingVersion}"
 
 
-   testImplementation 'junit:junit:4.12'
-   testImplementation       group: 'org.powermock'                 , name: 'powermock-module-junit4', version: 'latest.release'
-   testImplementation       group: 'org.powermock'                 , name: 'powermock-api-easymock' , version: 'latest.release'
-   testImplementation       group: 'mysql'                         , name: 'mysql-connector-java'   , version: '8.0.11'
-   testImplementation       group: 'org.xerial'                    , name: 'sqlite-jdbc'            , version: '3.7.2'
+   testImplementation   group: 'org.junit.jupiter'                            , name: 'junit-jupiter-engine'            , version: "${junitVersion}"
+   testImplementation   group: 'org.powermock'                                , name: 'powermock-module-junit4'         , version: "${powerMockVersion}"
+   testImplementation   group: 'org.powermock'                                , name: 'powermock-api-easymock'          , version: "${powerMockVersion}"
+   testImplementation   group: 'mysql'                                        , name: 'mysql-connector-java'            , version: "${mysqlConnectorVersion}"
+   testImplementation   group: 'org.xerial'                                   , name: 'sqlite-jdbc'                     , version: "${sqliteVersion}"
+}
+
+
+
+jacocoTestReport {
+   dependsOn test
+   reports {
+      xml.required = true
+   }
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+
+tasks.generateModuleInfo {
+   moduleName = 'mss.cronjobtools'
+   exports {
+      includes.add('de.mss.cronjob')
+      includes.add('de.mss.cronjob.exception')
+   }
 }

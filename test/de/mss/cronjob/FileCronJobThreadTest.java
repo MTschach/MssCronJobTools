@@ -1,32 +1,23 @@
 package de.mss.cronjob;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.mss.utils.exception.MssException;
-import junit.framework.TestCase;
 
-public class FileCronJobThreadTest extends TestCase {
+public class FileCronJobThreadTest {
 
    private static final String      CRON_FILE_NAME = "cronjobs.txt";
 
    private FileCronJobThreadForTest cronJobThread  = null;
-
-   @Override
-   public void setUp() throws Exception {
-      super.setUp();
-
-      initCronFile();
-
-      if (this.cronJobThread == null) {
-         this.cronJobThread = new FileCronJobThreadForTest(null, 1000, CRON_FILE_NAME);
-      }
-
-   }
-
 
    private void initCronFile() throws Exception {
       final File cronFile = new File(CRON_FILE_NAME);
@@ -59,9 +50,15 @@ public class FileCronJobThreadTest extends TestCase {
    }
 
 
-   @Override
-   public void tearDown() throws Exception {
-      super.tearDown();
+   @BeforeEach
+   public void setUp() throws Exception {
+
+      initCronFile();
+
+      if (this.cronJobThread == null) {
+         this.cronJobThread = new FileCronJobThreadForTest(null, 1000, CRON_FILE_NAME);
+      }
+
    }
 
 
@@ -70,13 +67,13 @@ public class FileCronJobThreadTest extends TestCase {
       this.cronJobThread.readJobList();
       final List<CronJob> jobList = this.cronJobThread.getJobList();
 
-      assertNotNull("joblist is not null", jobList);
-      assertEquals("number of jobs", Integer.valueOf(2), Integer.valueOf(jobList.size()));
+      assertNotNull(jobList);
+      assertEquals(Integer.valueOf(2), Integer.valueOf(jobList.size()));
 
       for (int i = 1; i <= jobList.size(); i++ ) {
          final CronJob c = jobList.get(i - 1);
-         assertNotNull("Cronjob is not null", c);
-         assertEquals("exec task", "Crontask " + i, c.getExecTask());
+         assertNotNull(c);
+         assertEquals("Crontask " + i, c.getExecTask());
       }
    }
 
@@ -89,8 +86,8 @@ public class FileCronJobThreadTest extends TestCase {
 
       this.cronJobThread.addTask(cronTask);
 
-      assertNull("logId before run", cronTask.getLogId());
-      assertNull("cfg before run", cronTask.getCfgFile());
+      assertNull(cronTask.getLogId());
+      assertNull(cronTask.getCfgFile());
 
       this.cronJobThread.start();
 
@@ -98,7 +95,7 @@ public class FileCronJobThreadTest extends TestCase {
 
       this.cronJobThread.stopRunning();
 
-      assertNotNull("logId after run", cronTask.getLogId());
-      assertNull("cfg after run", cronTask.getCfgFile());
+      assertNotNull(cronTask.getLogId());
+      assertNull(cronTask.getCfgFile());
    }
 }
